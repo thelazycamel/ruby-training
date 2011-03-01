@@ -29,7 +29,7 @@ class GuessingGame
         @number_of_guesses += 1
         puts "Too Low, try again"
         ask_for_a_number
-      when @actual_number
+      when number == @actual_number
         @number_of_guesses += 1
         completed_game
       end
