@@ -7,13 +7,13 @@ class GuessingGame
     name = gets
     @name = name.chomp
     puts "Hi #{@name}, Welcome to the Guessing Game, please choose a number between 1 and 100"
-    set_value
+    set_values
     ask_for_a_number
   end
   
-  def set_value
+  def set_values
     @number_of_guesses = 0
-    @actual_number = rand(100) +1
+    @actual_number = rand(100) + 1
   end
   
   def guess(number)
