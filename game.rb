@@ -6,7 +6,7 @@ class GuessingGame
     puts "Please enter your name"
     name = gets
     @name = name.chomp
-    puts "Hi #{name} Welcome to the Guessing Game, please choose a number between 1 and 100"
+    puts "Hi #{@name}, Welcome to the Guessing Game, please choose a number between 1 and 100"
     set_value
     ask_for_a_number
   end
