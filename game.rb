@@ -1,6 +1,6 @@
 class GuessingGame
   
-  attr_accessor :number_of_guesses, :actual_number, :name
+  attr_accessor :number_of_guesses, :actual_number, :name, :guesses_allowed
   
   def start_game
     puts "Please enter your name"
@@ -12,6 +12,7 @@ class GuessingGame
   end
   
   def set_values
+    @guesses_allowed = 5
     @number_of_guesses = 0
     @actual_number = rand(100) + 1
   end
@@ -22,21 +23,28 @@ class GuessingGame
         puts "Please choose a number between 1 and 100 only (or type quit)"
         ask_for_a_number
       when number > @actual_number
-        @number_of_guesses += 1
         puts "Too High, try again"
+        count
         ask_for_a_number
       when number < @actual_number
-        @number_of_guesses += 1
         puts "Too Low, try again"
+        count
         ask_for_a_number
       when number == @actual_number
-        @number_of_guesses += 1
-        completed_game
+        count
+        completed_game("Congratulations #{@name}, it took you #{@number_of_guesses} guesses")
       end
+  end
+  
+  def count
+    @number_of_guesses += 1
+    if @guesses_allowed - @number_of_guesses == 0
+      completed_game("Game Over, sorry but you have run out of guesses")
+    end
   end
     
   def ask_for_a_number
-    puts "Take your guess"
+    puts "Take your guess, (you have #{@guesses_allowed - @number_of_guesses} left)"
     number = gets
     number = number.chomp
     if number.downcase == "quit"
@@ -46,8 +54,12 @@ class GuessingGame
     end
   end
   
-  def completed_game
-    puts "Congratulations #{@name}, it took you #{@number_of_guesses} guesses"
+  def completed_game(message)
+    puts message
+    play_again
+  end
+  
+  def play_again
     puts "Would you like to play again (y/n)?"
     play_again = gets
     play_again = play_again.chomp
@@ -59,7 +71,7 @@ class GuessingGame
   end
   
   def exit_game
-    puts "Goodbye and thank you for playing"
+    puts "Goodbye #{name} and thank you for playing"
   end
     
 end
