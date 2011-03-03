@@ -1,56 +1,64 @@
 class GuessingGame
   
-  attr_accessor :number_of_guesses, :actual_number, :name, :guesses_allowed
+  def initialize(name)
+    @name = name
+    @minimum_number = get_min_number
+    @maximum_number = get_max_number
+    @guesses_allowed = 5
+    @number_of_guesses = 0
+    @actual_number = rand(@minimum_number - @maximum_number) + @minimum_number
+  end
+  
+  def get_min_number
+    puts "Please choose a minimum number"
+    gets.chomp.to_i
+  end
+  
+  def get_max_number
+    puts "Please choose a maximum number"
+    max = gets.chomp.to_i
+    while max <= @minimum_number do
+      puts "The maximum number must be bigger than the minimum number"
+      max = gets.chomp.to_i
+    end
+    max
+  end
   
   def start_game
-    puts "Please enter your name"
-    name = gets
-    @name = name.chomp
-    puts "Hi #{@name}, Welcome to the Guessing Game, please choose a number between 1 and 100"
-    set_values
+    puts "Hi #{@name}, Welcome to the Guessing Game, please choose a number between #{@minimum_number} and #{@maximum_number}"
     ask_for_a_number
   end
   
-  def set_values
-    @guesses_allowed = 5
-    @number_of_guesses = 0
-    @actual_number = rand(100) + 1
-  end
-  
   def guess(number)
-    case
-      when number <= 0 || number > 100
-        puts "Please choose a number between 1 and 100 only (or type quit)"
-        ask_for_a_number
-      when number > @actual_number
-        puts "Too High, try again"
-        count
-        ask_for_a_number
-      when number < @actual_number
-        puts "Too Low, try again"
-        count
-        ask_for_a_number
-      when number == @actual_number
-        count
-        completed_game("Congratulations #{@name}, it took you #{@number_of_guesses} guesses")
-      end
-  end
-  
-  def count
-    @number_of_guesses += 1
-    if @guesses_allowed - @number_of_guesses == 0
-      completed_game("Game Over, sorry but you have run out of guesses")
-    end
+    unless number.downcase == "quit"
+      number = number.to_i
+      case
+        when number < @minimum_number || number > @maximum_number
+          puts "Please choose a number between #{@minimum_number} and #{@maximum_number} only (or type quit)"
+          ask_for_a_number
+        when number > @actual_number
+          puts "Too High, try again"
+           @number_of_guesses += 1
+          ask_for_a_number
+        when number < @actual_number
+          puts "Too Low, try again"
+           @number_of_guesses += 1
+          ask_for_a_number
+        when number == @actual_number
+          @number_of_guesses += 1
+          completed_game("Congratulations #{@name}, it took you #{@number_of_guesses} guesses")
+        end
+    else
+      exit_game
+    end    
   end
     
   def ask_for_a_number
-    puts "Take your guess, (you have #{@guesses_allowed - @number_of_guesses} left)"
-    number = gets
-    number = number.chomp
-    if number.downcase == "quit"
-      exit_game
+    if @guesses_allowed - @number_of_guesses == 0
+      completed_game("Game Over, sorry but you have run out of guesses the number was #{@actual_number}")
     else
-      guess(number.to_i)
+      puts "Take your guess, (you have #{@guesses_allowed - @number_of_guesses} left)"
+      guess(gets.chomp)
     end
   end
   
@@ -61,22 +69,22 @@ class GuessingGame
   
   def play_again
     puts "Would you like to play again (y/n)?"
-    play_again = gets
-    play_again = play_again.chomp
-    if play_again.downcase.include?('y')
-      start_game
+    if gets.chomp.downcase.include?('y')
+      self.class.new(@name).start_game
     else
       exit_game
     end
   end
   
   def exit_game
-    puts "Goodbye #{name} and thank you for playing"
+    puts "Goodbye #{@name} and thank you for playing"
   end
     
 end
 
-guess_it = GuessingGame.new
-guess_it.start_game
+puts "Hi there stranger, whats your name"
+name = gets.chomp
+
+GuessingGame.new(name).start_game
 
 
