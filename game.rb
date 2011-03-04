@@ -11,7 +11,7 @@ class GuessingGame
   
   def get_name
     puts "Hi there stranger, whats your name"
-    name = gets.chomp
+    gets.chomp
   end
   
   def get_min_number
