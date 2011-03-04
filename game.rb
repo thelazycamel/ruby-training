@@ -1,12 +1,17 @@
 class GuessingGame
   
-  def initialize(name)
-    @name = name
+  def initialize(name=nil)
+    name ? @name = name : @name = get_name 
     @minimum_number = get_min_number
     @maximum_number = get_max_number
     @guesses_allowed = 5
     @number_of_guesses = 0
     @actual_number = rand(@minimum_number - @maximum_number) + @minimum_number
+  end
+  
+  def get_name
+    puts "Hi there stranger, whats your name"
+    name = gets.chomp
   end
   
   def get_min_number
@@ -82,9 +87,6 @@ class GuessingGame
     
 end
 
-puts "Hi there stranger, whats your name"
-name = gets.chomp
-
-GuessingGame.new(name).start_game
+GuessingGame.new.start_game
 
 
