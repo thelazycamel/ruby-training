@@ -12,7 +12,7 @@ end
 #attempt number 2 (on one line) - tough so shuffle them up and hope for the best :)
 array3 = (array1 + array2).map{|x| x.to_s}.shuffle
 
-#attempt number 3 (on one line) - the most complicated one-line ive ever done.
+#attempt number 3 (on one line) - the most complicated one-line ive ever done - i guess thats what you meant by zip it?
 array3 = array1.map{|x| x.to_s + "," + array2[x-1].to_s + ","}.join.split(",")
 
 puts array3.inspect
