@@ -35,27 +35,23 @@ class GuessingGame
   end
   
   def guess(number)
-    unless number.downcase == "quit"
-      number = number.to_i
-      case
-        when number < @minimum_number || number > @maximum_number
-          puts "Please choose a number between #{@minimum_number} and #{@maximum_number} only (or type quit)"
-          ask_for_a_number
-        when number > @actual_number
-          puts "Too High, try again"
-           @number_of_guesses += 1
-          ask_for_a_number
-        when number < @actual_number
-          puts "Too Low, try again"
-           @number_of_guesses += 1
-          ask_for_a_number
-        when number == @actual_number
-          @number_of_guesses += 1
-          completed_game("Congratulations #{@name}, it took you #{@number_of_guesses} guesses")
-        end
-    else
-      exit_game
-    end    
+    return exit_game if number.downcase == "quit"
+    number = number.to_i
+    if number < @minimum_number || number > @maximum_number
+      puts "Please choose a number between #{@minimum_number} and #{@maximum_number} only (or type quit)"
+      ask_for_a_number
+    elsif number > @actual_number
+      puts "Too High, try again"
+      @number_of_guesses += 1
+      ask_for_a_number
+    elsif number < @actual_number
+      puts "Too Low, try again"
+      @number_of_guesses += 1
+      ask_for_a_number
+    else #number must equal actual number
+      @number_of_guesses += 1
+      completed_game("Congratulations #{@name}, it took you #{@number_of_guesses} guesses")
+    end  
   end
     
   def ask_for_a_number
@@ -88,5 +84,3 @@ class GuessingGame
 end
 
 GuessingGame.new.start_game
-
-
