@@ -13,6 +13,8 @@ class ArrayTesting
     
 end
 
+#this is an attempt to understand procs/lambdas, I wanted to be able to throw a code block into the test class and give the result
+
 attempt1 = lambda do |array1,array2|
  array3 = []
   4.times do |i|
@@ -22,8 +24,7 @@ attempt1 = lambda do |array1,array2|
  return array3
 end
 
-attempt2 = lambda {|array1, array2 | (array1 + array2).map{|x| x.to_s}.shuffle}
-
+attempt2 = lambda {|array1, array2 | (array1 + array2).map{|x| x.to_s}.shuffle} #just for fun
 attempt3 = lambda {|array1,array2| array1.map {|x| x.to_s}.zip(array2).flatten}
  
 puts "The result for attempt number 1 is #{ArrayTesting.new.test(attempt1.call(array1,array2))}"
